@@ -225,11 +225,13 @@ int main(){
 
   	if(!isValidSudoku){
 		red();
-  		printf("Please enter a valid sudoku next!, The program has ended");
+		newLine();
+  		printf("Please enter a valid sudoku next time!, The program has ended");
 		reset();
-  	}
+  	}else{
+		byeMessage();
+	}
 
-	byeMessage();
 
 	return 0;
 }
