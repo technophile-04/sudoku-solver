@@ -1,12 +1,63 @@
+/* Header files */
 #include<stdio.h>
 #include<stdlib.h>
+#include<stdbool.h>
 
+/* Sudoku dimension */
 const int rows = 9;
 const int cols = 9;
 
-void printBoard(int board[rows][cols]){
+/* Helper variables */
+int count = 0;
+bool isValidSudoku = false;
+
+/* setting output colors and showing output */
+void red () {
+  printf("\033[0;31m");
+}
+
+void purple() {
+  printf("\033[0;95m");
+}
+
+void green () {
+	printf("\033[0;32m");
+}
+
+void blue () {
+	printf("\033[0;34m");
+}
+
+void reset () {
+  printf("\033[0m");
+}
+
+void newLine(){
+	printf("\n");
+}
+
+void greet(){
+	newLine();
+	purple();
+	printf("|-------------------------|\n");
+	printf("|Welcome to sudoku solver |\n");
+	printf("|-------------------------|\n");
+	reset();
+	newLine();
+	
+}
+
+void printBoard(int board[rows][cols], int color){
 
 	int i, j;
+
+	if(color == 1){
+		green();
+		newLine();
+		printf("The state of board after : ");
+		newLine();
+		newLine();
+	}
 
 	printf("-------------------------------\n");
 
@@ -15,7 +66,9 @@ void printBoard(int board[rows][cols]){
 		printf("|");
 
 		for(j = 0; j < cols; ++j){
+
 			printf(" %d ",board[i][j]);
+
 			if((j+1) % 3 == 0){
 				printf("|");
 			}
@@ -26,9 +79,62 @@ void printBoard(int board[rows][cols]){
 			printf("-------------------------------\n");
 		}
 	}
+
+	reset();
 }
 
-bool isValid(int board[rows][cols], int x, int y, int val){
+void byeMessage(){
+	blue();
+	newLine();
+	printf("That was quick !, Hope to see you again with new problem :)");
+}
+
+
+/* Taking input and validating input  */
+void takeInput(int board[rows][cols]){
+
+	for (int i = 0; i < rows; ++i)
+	{
+		for(int j = 0; j < cols; ++j){
+			int x;
+			scanf("%d", &x);
+			
+			board[i][j] = x;
+		}
+	}
+}
+
+bool validNumbers(int board[rows][cols]){
+
+	for (int i = 0; i < rows; ++i)
+	{
+		for(int j = 0; j < cols; ++j){
+			
+			if(board[i][j] > 9 || board[i][j] < 0){
+				return false;
+			} 
+
+		}
+	}
+
+	return true;
+}
+
+void checkForValidInput(int board[rows][cols]){
+	while(!validNumbers(board)){
+		red();
+		newLine();
+		printf("Please make sure that each number is between 1 to 9, re-enter the sudoku... \n");
+		newLine();
+		reset();
+		takeInput(board);
+	}
+}
+
+
+
+/* Sudoku solver and its helper funtions   */
+bool isPossibleNumber(int board[rows][cols], int x, int y, int val){
 	for(int j = 0; j < cols; j++){
 		if(board[x][j] == val){
 			return false;
@@ -55,12 +161,11 @@ bool isValid(int board[rows][cols], int x, int y, int val){
 	return true;
 }
 
-void sudokuSolver(int board[rows][cols], int i, int j,bool &isValidSudoku){
+void sudokuSolver(int board[rows][cols], int i, int j){
 
 	if(i == rows){
 		isValidSudoku = true;
-		printf("The state of board after : \n");
-		printBoard(board);
+		printBoard(board, 1);
 		return;
 	}
 
@@ -75,14 +180,14 @@ void sudokuSolver(int board[rows][cols], int i, int j,bool &isValidSudoku){
 	}
 
 	if(board[i][j] != 0){
-		sudokuSolver(board, nextI, nextJ,isValidSudoku);
+		sudokuSolver(board, nextI, nextJ);
 	}else{
 
 		for(int possibleAnswer = 1; possibleAnswer <= 9; possibleAnswer++)
 		{
-			if(isValid(board, i , j , possibleAnswer)){
+			if(isPossibleNumber(board, i , j , possibleAnswer)){
 				board[i][j] = possibleAnswer;
-				sudokuSolver(board, nextI, nextJ, isValidSudoku);
+				sudokuSolver(board, nextI, nextJ);
 				board[i][j] = 0;
 			}
 		}
@@ -91,31 +196,40 @@ void sudokuSolver(int board[rows][cols], int i, int j,bool &isValidSudoku){
 
 }
 
+void solveSudoku(int board[rows][cols]){
+	newLine();
+    printf("The state of board before : ");
+	newLine();   
+	newLine();   
+
+  	printBoard(board, 0);
+
+  	sudokuSolver(board, 0, 0);
+}
+
+/* Main funtion */
 int main(){
 
 	int board[rows][cols];
-	bool isValidSudoku = false;
 
+	greet();
 
-	for (int i = 0; i < rows; ++i)
-	{
-		for(int j = 0; j < cols; ++j){
-			scanf("%d", &board[i][j]);
-		}
-	}
+	printf("Please enter the sudoku you want to solve (make sure there are 81 elements) \n");
+	newLine();
 
-    printf("The state of board before : \n");   
+	takeInput(board);
 
-  	printBoard(board);
+	checkForValidInput(board);
 
-  	sudokuSolver(board, 0, 0, isValidSudoku);
+	solveSudoku(board);
 
   	if(!isValidSudoku){
-  		printf("Please enter a valid sudoku!");
-	
+		red();
+  		printf("Please enter a valid sudoku next!, The program has ended");
+		reset();
   	}
 
-  	
+	byeMessage();
 
 	return 0;
 }
