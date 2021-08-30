@@ -11,7 +11,7 @@ const int cols = 9;
 int count = 0;
 bool isValidSudoku = false;
 
-/* setting output colors and showing output */
+/* setting output colors and showing output (By Neer)  */
 void red () {
   printf("\033[0;31m");
 }
@@ -90,7 +90,7 @@ void byeMessage(){
 }
 
 
-/* Taking input and validating input  */
+/* Taking input and validating input  (By Vashisth) */
 void takeInput(int board[rows][cols]){
 
 	for (int i = 0; i < rows; ++i)
@@ -133,7 +133,7 @@ void checkForValidInput(int board[rows][cols]){
 
 
 
-/* Sudoku solver and its helper funtions   */
+/* Sudoku solver and its helper funtions   (By Shiv)*/
 bool isPossibleNumber(int board[rows][cols], int x, int y, int val){
 	for(int j = 0; j < cols; j++){
 		if(board[x][j] == val){
