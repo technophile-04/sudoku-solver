@@ -47,16 +47,36 @@ void greet(){
 	
 }
 
-void printBoard(int board[rows][cols], int color){
+void printInstructions(){
+	red();
+	printf("Instructions : \n");
+	printf("1) Please enter zero incase of blank spaces\n");
+	printf("2) Make sure you enter total of 81 elements\n");
+	newLine();
+	reset();
+}
+
+void printBoard(int board[rows][cols], int colorChoice){
 
 	int i, j;
 
-	if(color == 1){
+	purple();
+
+	if(colorChoice == 0){
+
+		newLine();
+		printf("The state of board before : ");
+		newLine();   
+		newLine();
+
+	}else if(colorChoice == 1){
+
 		green();
 		newLine();
 		printf("The state of board after : ");
 		newLine();
 		newLine();
+
 	}
 
 	printf("-------------------------------\n");
@@ -88,6 +108,7 @@ void byeMessage(){
 	newLine();
 	printf("That was quick !, Hope to see you again with new problem :)");
 }
+
 
 
 /* Taking input and validating input  (By Vashisth) */
@@ -194,10 +215,7 @@ void sudokuSolver(int board[rows][cols], int i, int j){
 }
 
 void solveSudoku(int board[rows][cols]){
-	newLine();
-    printf("The state of board before : ");
-	newLine();   
-	newLine();   
+   
 
   	printBoard(board, 0);
 
@@ -211,8 +229,7 @@ int main(){
 
 	greet();
 
-	printf("Please enter the sudoku you want to solve (make sure there are 81 elements) \n");
-	newLine();
+	printInstructions();
 
 	takeInput(board);
 
