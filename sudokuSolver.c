@@ -47,11 +47,21 @@ void greet(){
 	
 }
 
-void printInstructions(){
+void printInstructions(bool isInValid){
+
 	red();
-	printf("Instructions : \n");
-	printf("1) Please enter zero incase of blank spaces\n");
-	printf("2) Make sure you enter total of 81 elements\n");
+
+	if(isInValid){
+		printf("Rules : \n");
+		printf("1)Every row of 9 numbers must include all digits 1 through 9 in any order\n");
+		printf("2)Every column of 9 numbers must include all digits 1 through 9 in any order\n");
+		printf("3)Every 3 by 3 subsection of the 9 by 9 square must include all digits 1 through 9\n");
+	}else{
+		printf("Instructions : \n");
+		printf("1) Please enter zero incase of blank spaces\n");
+		printf("2) Make sure you enter total of 81 elements\n");
+		printf("3) Enter elements only between 0 to 9\n");
+	}
 	newLine();
 	reset();
 }
@@ -227,9 +237,14 @@ int main(){
 
 	int board[rows][cols];
 
+	
+
 	greet();
 
-	printInstructions();
+
+	printInstructions(false);
+	
+	start:
 
 	takeInput(board);
 
@@ -240,8 +255,10 @@ int main(){
   	if(!isValidSudoku){
 		red();
 		newLine();
-  		printf("Please enter a valid sudoku next time!, The program has ended");
+  		printf("The entered sudoku is invalid, Please re-enter the values\n");
+		printInstructions(true); 
 		reset();
+		goto start;
   	}else{
 		byeMessage();
 	}
