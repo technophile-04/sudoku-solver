@@ -51,35 +51,35 @@ void printInstructions(bool isInValid){
 
 	red();
 
-	if(isInValid){
-		printf("Rules : \n");
-		printf("1)Every row of 9 numbers must include all digits 1 through 9 in any order\n");
-		printf("2)Every column of 9 numbers must include all digits 1 through 9 in any order\n");
-		printf("3)Every 3 by 3 subsection of the 9 by 9 square must include all digits 1 through 9\n");
-	}else{
+	if(!isInValid){
 		printf("Instructions : \n");
 		printf("1) Please enter zero incase of blank spaces\n");
 		printf("2) Make sure you enter total of 81 elements\n");
 		printf("3) Enter elements only between 0 to 9\n");
+	}else{
+		printf("Rules : \n");
+		printf("1)Every row of 9 numbers must include all digits 1 through 9 in any order\n");
+		printf("2)Every column of 9 numbers must include all digits 1 through 9 in any order\n");
+		printf("3)Every 3 by 3 subsection of the 9 by 9 square must include all digits 1 through 9\n");
 	}
 	newLine();
 	reset();
 }
 
-void printBoard(int board[rows][cols], int colorChoice){
+void printBoard(int board[rows][cols], char colorChoice){
 
 	int i, j;
 
 	purple();
 
-	if(colorChoice == 0){
+	if(colorChoice == 'p'){
 
 		newLine();
 		printf("The state of board before : ");
 		newLine();   
 		newLine();
 
-	}else if(colorChoice == 1){
+	}else if(colorChoice == 'g'){
 
 		green();
 		newLine();
@@ -193,7 +193,7 @@ void sudokuSolver(int board[rows][cols], int i, int j){
 
 	if(i == rows){
 		isValidSudoku = true;
-		printBoard(board, 1);
+		printBoard(board, 'g');
 		return;
 	}
 
@@ -224,20 +224,10 @@ void sudokuSolver(int board[rows][cols], int i, int j){
 
 }
 
-void solveSudoku(int board[rows][cols]){
-   
-
-  	printBoard(board, 0);
-
-  	sudokuSolver(board, 0, 0);
-}
-
 /* Main funtion */
 int main(){
 
 	int board[rows][cols];
-
-	
 
 	greet();
 
@@ -249,8 +239,10 @@ int main(){
 	takeInput(board);
 
 	checkForValidInput(board);
+	
+	printBoard(board, 'p');
 
-	solveSudoku(board);
+  	sudokuSolver(board, 0, 0);
 
   	if(!isValidSudoku){
 		red();
@@ -262,7 +254,6 @@ int main(){
   	}else{
 		byeMessage();
 	}
-
 
 	return 0;
 }
