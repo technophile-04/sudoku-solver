@@ -1,6 +1,5 @@
 /* Header files */
 #include<stdio.h>
-#include<stdlib.h>
 #include<stdbool.h>
 
 /* Sudoku dimension */
@@ -8,7 +7,6 @@ const int rows = 9;
 const int cols = 9;
 
 /* Helper variables */
-int count = 0;
 bool isValidSudoku = false;
 
 /* setting output colors and showing output (By Neer)  */
@@ -230,7 +228,6 @@ int main(){
 	int board[rows][cols];
 
 	greet();
-
 
 	printInstructions(false);
 	
